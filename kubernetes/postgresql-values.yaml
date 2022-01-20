@@ -1,0 +1,19 @@
+---
+fullnameOverride: order-postgres
+global:
+  postgresql:
+    postgresqlUsername: postgres
+    postgresqlPassword: postgres
+initdbUser: postgres
+initdbPassword: postgres
+initdbScripts:
+  dbinit.sql: |
+    CREATE DATABASE "order" OWNER postgres;
+    \connect customer
+
+CREATE TABLE "customer"
+(
+    id serial primary key,
+    "firstname" character varying,
+    "lastname" character varying
+);
