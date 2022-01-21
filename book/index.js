@@ -1,26 +1,25 @@
-require('dotenv').config();
+require("dotenv").config();
 const client = require("./db.js");
 const bp = require("body-parser");
 
 //EXPRESS server
 const express = require("express");
-const book = require('./db.js');
 const app = express();
 app.use(bp.json());
-const port = 3000;
+const port = 3001;
 
 app.get("/book", (req, res) => {
   client.query("SELECT * FROM book", (err, result) => {
     if (!err) {
-      const customers = result.rows;
-      console.log(customers);
-      res.send(customers);
+      const book = result.rows;
+      console.log(book);
+      res.send(book);
     }
   });
 });
 
-app.get("/boook:id", (req, res) => {
-  client.query(`Select * from book where id=${req.params.id}`, (err, result) => {
+app.get("/customer/:id", (req, res) => {
+  client.query(`Select * from customer where id=${req.params.id}`, (err, result) => {
     if (!err) {
       const customer = result.rows[0];
       console.log(book);
@@ -41,8 +40,8 @@ app.get("/boook:id", (req, res) => {
 
 app.post("/book", (req, res) => {
   console.log(req.body);
-  const customer = req.body;
-  let insertQuery = `insert into book(firstName, lastName) 
+  const book = req.body;
+  let insertQuery = `insert into book(title,author) 
                      values('${book.title}', '${book.author}')`;
 
   client.query(insertQuery, (err, result) => {
@@ -59,10 +58,10 @@ app.post("/book", (req, res) => {
 //---------------------------------------------------------------------------------------UPDATE customer
 
 app.put("/book/:id", (req, res) => {
-  let customer = req.body;
+  let book = req.body;
   let updateQuery = `update customer
                        set title = '${book.title}',
-                       author = '${book.author}'
+                       author = '${book.title}'
                        where id = ${req.params.id}`;
 
   client.query(updateQuery, (err, result) => {
@@ -92,4 +91,3 @@ app.delete("/book/:id", (req, res) => {
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
 });
-
