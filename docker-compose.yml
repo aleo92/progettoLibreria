@@ -24,6 +24,8 @@ services:
     environment:
       DB_HOST: customer_db
       DB_PORT: 5432
+    depends_on:
+      - customer_db
 
   book_db:
     image: postgres:12-alpine
@@ -38,4 +40,17 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: book
+
+  book:
+    image: book
+    container_name: book
+    ports:
+      - "3001:3001"
+    restart: always
+    environment:
+      DB_HOST: book_db
+      DB_PORT: 5432
+    depends_on:
+      - book_db
+
 

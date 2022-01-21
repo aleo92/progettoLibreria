@@ -1,6 +1,6 @@
-const { Book } = require('pg')
+const { Client } = require('pg')
 
-const book = new Book({
+const client = new Client({
   user: 'postgres',
   host: process.env.DB_HOST,
   database: 'book',
@@ -9,4 +9,4 @@ const book = new Book({
 })                               
 client.connect()             
 
-module.exports = book
+module.exports = client
